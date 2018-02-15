@@ -46,7 +46,9 @@ class ShopsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        try? fetchedResultsController.performFetch()
+        
+        
+        try! fetchedResultsController.performFetch()
         tableView.reloadData()
     }
 }
@@ -94,6 +96,11 @@ extension ShopsViewController: UITableViewDataSource {
 }
 
 extension ShopsViewController: NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    }
+}
+
+extension ShopsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         
@@ -104,9 +111,7 @@ extension ShopsViewController: NSFetchedResultsControllerDelegate {
         fetchedResultsController.managedObjectContext.delete(inventory)
         try? fetchedResultsController.managedObjectContext.save()
     }
-}
-
-extension ShopsViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedShop = fetchedResultsController.object(at: indexPath)
         let st = UIStoryboard(name: "Main", bundle: Bundle.main)

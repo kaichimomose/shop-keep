@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol Update: class {
+    func updateViewContext(item: Employee)
+}
+
 class EmployeeViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -16,9 +20,16 @@ class EmployeeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.largeTitleDisplayMode = .never
+//        navigationItem.largeTitleDisplayMode = .never
         tableView.dataSource = self
     }
+    
+    @IBAction func addAnEmployeeTapped(_ sender: Any) {
+        let addEmployeeVC = storyboard?.instantiateViewController(withIdentifier: "AddEmployee") as! AddEmployeeViewController
+        addEmployeeVC.shop = shop
+        self.navigationController?.pushViewController(addEmployeeVC, animated: true)
+    }
+    
 }
 
 extension EmployeeViewController: UITableViewDataSource {
@@ -43,4 +54,6 @@ extension EmployeeViewController: UITableViewDataSource {
         
         return cell
     }
+    
+    
 }
